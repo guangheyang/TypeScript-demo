@@ -1,99 +1,209 @@
-## 为什么学习`TypeScript`
+## 基本类型约束
 
-获得更好的开发体验
+### 如何进行类型约束
 
-解决`JS`中一些难以处理的问题
+仅需在 变量、函数的参数、函数的返回值位置加`:类型`
 
-### `JS`开发中的问题
+在很多场景中ts可以完成推导。
 
-使用了不存在的变量、函数或成员
+any表示任意类型，对该类型，不进行类型检查。
 
-把一个不确定的类型当作一个确定的类型处理
+*小技巧*如何区分数字字符串和数字，关键看怎么读？
 
-在使用null或undefined的成员
+如果按照数字的方式朗读，则位数字；否则为字符串。
 
-### `JS`的缺点
-
-`js`语言本身的特性，决定了该语言不能适应大型的复杂的项目
-
-弱类型：某个变量，可以随时更换类型
-
-解释性：错误发生时间，是运行时才报错
-
-## `TypeScript`
-
-`TypeScript`是`JS`的超集，是一个可选的、静态的类型系统。
-
-### 类型系统
-
-对代码中所有的标识符（变量、函数、参数、返回值）进行类型检查。
-
-### 可选的
-
-类型检查可用可不用
-
-### 静态的
-
-无论是浏览器环境，还是node环境，无法直接识别ts代码。
-
-静态：类型检查发生在编译的时候，而发运行
-
-ts不参与任何运行时的类型检查
-
-### 额外惊喜
-
-有了类型检查，可以增强面向对象的开发。
-
-`js`中也有类和对象，支持面向对象开发。没有类型检查，很多面向对象的场景实现起来存在诸多问题。
-
-### 使用TS后，可以编写处完善的面向对象代码。
-
-## TS的使用（版本4.2.4）
+### 源代码和编译结果差异
 
 ```typescript
-let myName:string = 'yang'
+function add(a:number, b:number) {
+    return a + b;
+}
+let num = add(3, 4);
+let name = 'yang';
+let any;
 ```
 
-会提示name变量已经存在
+```javascript
+function add(a, b) {
+    return a + b;
+}
+let num = add(3, 4);
+let name = 'yangguanghe';
+let any;
+```
 
-默认情况下，TS会做出下面几种假设：
+### 基本类型
 
-- 假设当前的执行环境为浏览器环境
+- number 数字
 
-- 如果代码中没有使用模块化语句（import、export），便认为代码是全局执行
+```typescript
+let num:number = 12;
+let age = 18;
+```
 
-- 编译的目标代码是`ES3`
+- string 字符串
 
-  ```javascript
-  var myName = 'yang';
-  ```
+```typescript
+let str:string = 'yang';
+let name = 'yang';
+```
 
-有两种方式改变以上假设：
+- boolean 布尔
 
-1. 使用`tsc`命令行的时候，加上选项参数
-2. 使用ts配置文件，更改编译选项
-
-### typescript配置文件
-
-1. 可以新建一个`tsconfig.json`文件
-2. 使用`tsc --init`命令生产配置文件
-
-```json
-{
-  "compilerOptions": { // 编译选项
-    "target": "ES2016", // 配置编译目标代码的版本标准
-    "module": "commonjs", // 配置编译目标的模块化标准  
-    "lib": ["es2016"], // 环境变量
-    "outDir": "./dist" // 编译结果
-  },
-  "include": ["./src"] // 编译目录
+```typescript
+function isOdd(n: number) {
+  return n % 2 === 0
 }
 ```
 
-使用了配置文件后，使用`tsc`进行编译时，不能跟上文件名，如果跟上文件名，会忽略配置文件。
+- Array 数组
 
-### 第三方库简化流程
+```typescript
+let nums: number[] = [2, 3, 4]
+let arr:Array<number> = [1, 2, 3]
+```
 
-`ts-node`：`ts-node` + 文件路径 ，将ts代码在内存中完成编译，同时完成运行。
+- object 对象
 
-`nodemon`: 用于监测文件变化
+  约束性不强，只能约束其为对象，不能约束其属性
+
+```typescript
+function printValues(obj: object) {
+    const val = Object.values(obj);
+    val.forEach(v => {
+        console.log(v)
+    })
+}
+```
+
+- null 和 undefined
+
+```typescript
+let nodata:string = null;
+```
+
+​		null和undefined是所有其他类型的子类型，它可以赋值给其他类型。会使类型检查失去意义，可以通过在配置文件添加`strictNullChecks:true`,来获得更严格的空类型检查，从此null和undefined只能赋值给自身。
+
+### 其他类型
+
+- 联合类型 多种类型任选
+
+  配合类型保护进行判断
+
+  类型保护：当对某个变量进行类型判断之后，在判断的语句块中可以确定它的确切类型。
+
+- void类型 
+
+  通常用于约束函数的返回值，表示该函数没有任何返回值
+
+- never类型
+
+  通常用于约束函数的返回值，表示该函数永远不可能结束，一般检测不到，需要自己手动添加。
+
+- 字面量类型
+
+  使用一个值进行约束
+
+  ```typescript
+  let a:"A";
+  
+  let gender: "man"|"woman"
+  
+  let user: {
+      name: string
+      age: number
+  }
+  
+  user = {
+      name: 'yang',
+      age: 18
+  }
+  ```
+
+- 元祖类型（Tuple）
+
+  一个固定长度的数组，并且数组中每一项的类型确定
+
+  ```typescript
+  let tu: [string, number]
+  tu = ['3', 4]
+  ```
+
+- any类型
+
+  可以绕过类型检查，因此any类型可以赋值任意类型
+
+  ```typescript
+  let b:any = 'string'
+  let c:number = b
+  ```
+
+  #### 类型别名
+
+  对已知的一些类型定义名称
+
+  type 类型名
+
+  ```typescript
+  type Gender = "man"|"woman"
+  type User = {
+      name: string
+      age: number
+      gender: Gender
+  }
+  
+  let u:User
+  
+  u = {
+      name: 'yang',
+      age: 18,
+      gender: 'man'
+  }
+  
+  function getUser(g: Gender):User[] {
+      return []
+  } 
+  getUser('man')
+  ```
+
+  #### 函数的相关约束
+
+  函数重载：在函数实现之前，对函数调用的多种情况进行声明。
+
+  可选参数：可以在参数后加？，表示该参数不用传递，可选参数不能在参数列表首位。
+
+  默认赋值：参数后加等号。
+
+  ```typescript
+  /**
+   * 得到a*b的结果
+   * @param a 
+   * @param b 
+   */
+  function combine(a:number, b:number):number;
+  /**
+   * 得到a和b的拼接
+   * @param a 
+   * @param b 
+   */
+  function combine(a:string, b:string):string;
+  function combine(a: number | string, b: number | string):number | string {
+      if (typeof a === "number" && typeof b === "number") {
+          return a * b;
+      } else if (typeof a === 'string' && typeof b === "string") {
+          return a + b;
+      }
+      throw new Error("a和b类型必须相同")
+  }
+  
+  combine(2,3)
+  
+  function sum(a:number, b:number = 1, c?:number) {
+      if (c) {
+          return a + b + c
+      } else {
+          return a + b
+      }
+  }
+  sum(1)
+  ```
