@@ -1,60 +1,28 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-function add(a, b) {
-    return a + b;
-}
-let num = add(3, 4);
-let name = 'yangguanghe';
-let any;
-function isOdd(n) {
-    return n % 2 === 0;
-}
-let nums = [2, 3, 4];
-let arr = [1, 2, 3];
-function printValues(obj) {
-    const val = Object.values(obj);
-    val.forEach(v => {
-        console.log(v);
-    });
-}
-printValues({
-    name: 'yang',
-    age: 18
-});
-// let nodata:string = null
-let data;
-if (typeof (data) === 'string') {
-    console.log(data.length);
-}
-function getName() {
-    console.log('yang');
-}
-function throwError(msg) {
-    throw new Error(msg);
-}
-function always() {
-    while (true) {
-        //...
-    }
-}
-let a;
+var Sex;
+(function (Sex) {
+    Sex["male"] = "man";
+    Sex["female"] = "woman";
+})(Sex || (Sex = {}));
 let gender;
-let user;
-user = {
-    name: 'yang',
-    age: 18
-};
-let tu;
-tu = ['3', 4];
-let b = 'string';
-let c = b;
-let u;
-u = {
-    name: 'yang',
-    age: 18,
-    gender: 'man'
-};
-function getUser(g) {
-    return [];
+let sex;
+gender = "man";
+gender = "woman";
+sex = Sex.male;
+sex = Sex.female;
+function searchUser(g, s) {
 }
-getUser('man');
+function printSex() {
+    const vals = Object.values(Sex);
+    vals.forEach(item => console.log(item));
+}
+printSex();
+var Level;
+(function (Level) {
+    Level[Level["level1"] = 1] = "level1";
+    Level[Level["level2"] = 2] = "level2";
+    Level[Level["level3"] = 3] = "level3";
+})(Level || (Level = {}));
+let l = Level.level2;
+console.log(l);
+l = Level.level3;
+console.log(l);
