@@ -1,38 +1,54 @@
-enum Sex {
-    male = "man",
-    female = "woman"
+type Deck = NormalCard[]
+enum Color {
+    heart = "♥",
+    spade = "♠",
+    club = "♣",
+    diamond = "♦"
+
 }
 
-type Gender = "man" | "woman";
-let gender: Gender;
-
-let sex: Sex;
-
-gender = "man";
-gender = "woman";
-
-sex = Sex.male
-sex = Sex.female
-function searchUser(l:Level, g?: Gender, s?: Sex) {
-    console.log(l)
+enum Mark {
+    one = "A",
+    two = "2",
+    three = "3",
+    four = "4",
+    five = "5",
+    six = "6",
+    seven = "7",
+    eight = "8",
+    nine = "9",
+    ten = "10",
+    eleven = "J",
+    twelve = "Q",
+    king = "K"
+}
+type NormalCard = {
+    color: Color,
+    mark: Mark
+}
+function createDeck():Deck {
+    const deck: Deck = []
+    const mark = Object.values(Mark)
+    const color = Object.values(Color)
+    for (const m of mark) {
+        for (const c of color) {
+            deck.push({
+                color: c,
+                mark: m
+            })
+        }
+    }
+    return deck;
 }
 
-function printSex() {
-    const vals = Object.values(Sex);
-    vals.forEach(item => console.log(item))
+function printDeck(deck: Deck) {
+    let result = "\n";
+    deck.forEach(item => {
+        let str = item.color + item.mark
+        result += str + "\t"
+    })
+    console.log(result)
 }
 
-printSex()
-
-enum Level {
-    level1 = 1,
-    level2,
-    level3
-}
-
-let l = Level.level2;
-console.log(l)
-l = Level.level3
-console.log(l)
-
-searchUser(Level.level3)
+const deck = createDeck();
+printDeck(deck);
