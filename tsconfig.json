@@ -4,7 +4,12 @@
     "module": "commonjs", // 配置编译目标的模块化标准  
     "lib": ["es2016"], // 环境变量
     "outDir": "./dist", // 编译结果
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "removeComments": true, //移除注释
+    "noImplicitUseStrict": true, // 编译结果不使用use strict
+    "esModuleInterop": true, // 启用es模块化交互非es模块导出
+    "noEmitOnError": true, // 错误时不生成编译结果
+    "moduleResolution": "node" // 设置模块的解析模式
   },
   "include": ["./src"] // 编译目录
 }

@@ -1,41 +1,20 @@
-// 用户权限
-enum Permission {
-    Read = 1,   // 0001
-    Write = 2,  // 0010
-    Create = 4, // 0100
-    Delete = 8  // 1000
-}
+import sum, { name } from "./module";
+// 解决默认导入的错误,下面的写法会报错
+// import fs from 'fs'
 
-// 1.如何组合权限
-// 使用或运算
-// 0001
-// 或
-// 0010
-// 结果
-// 0011
+// 解决方式
+// 第一种
+import { readFileSync } from 'fs'
+console.log(readFileSync('./'));
+// 第二种
+import * as fs from 'fs'
+console.log(fs.readFileSync('./'));
+// 第三种
+// 更改配置
 
-let p:Permission = Permission.Read | Permission.Write;
-
-// 2.如何判断是否拥有某个权限
-// 0011
-// 且
-// 0010
-// 结果
-// 0010
-
-function hasPermission(target:Permission, per: Permission) {
-    return (target & per) === per
-}
-
-// 判断变量p是否拥有可读权限
-console.log(hasPermission(p, Permission.Read));
-console.log(hasPermission(p, Permission.Write));
-// 3.如何删除某个权限
-// 0011
-// 异或
-// 0010
-// 结果
-// 0001
-
-p = p ^ Permission.Write
-console.log(hasPermission(p, Permission.Write))
+// TS中使用commonjs模块
+import commonjs from './commonjs'
+import myCommonjs = require('./commonjs');
+console.log(myCommonjs.say, commonjs.name)
+// console.log(name);
+// console.log(sum(1, 2));
