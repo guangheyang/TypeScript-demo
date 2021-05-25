@@ -1,70 +1,24 @@
 interface User {
+    readonly id: string
     name: string
     age: number
-    sayHello():void
-    getName: () => void
+    readonly arr: readonly string[] // 本身不能赋值，数组也不能改变
 }
 
 let u:User = {
+    id: '123',
     name: 'yang',
     age: 18,
-    sayHello: () => {
-        console.log('hello')
-    },
-    getName: () => {
-        console.log('yang')
-    }
+    arr: ['yang']
 }
 
-// 普通方式
-// function sum(numbers: number[], callback: (n: number) => boolean) {
-//     numbers.forEach
-// }
-// 类型别名
-// type Condition = (n :number) => boolean
+// u.id = '234' 会报错
 
-// 接口
-interface Condition {
-    (n: number): boolean
-}
-function sum(numbers: number[], callback: Condition) {
-    let s = 0;
-    numbers.forEach(n => {
-        if (callback(n)) {
-            s += n
-        }
-    })
-    return s;
-}
+// 只读的数组
+let arr: readonly number[] = [2, 3, 4]
+let arrs: ReadonlyArray<number> = [2, 3, 4]
 
-const result = sum([1, 3, 5, 7, 9], n => n % 2 !== 0);
-console.log(result);
+arr = [4, 5, 6, 7];
 
+console.log(arr, arrs)
 
-interface A {
-    T1: string
-}
-
-interface B {
-    T2: number
-}
-
-interface C extends A, B {
-    T3: boolean
-}
-let t:C = {
-    T1: 'yang',
-    T2 :18,
-    T3: true
-}
-
-type D = {
-    T1:string
-}
-
-type E = {
-    T2: number
-}
- type F = {
-     T3: boolean
- } & D & E
