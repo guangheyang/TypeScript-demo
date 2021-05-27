@@ -1,24 +1,43 @@
-interface User {
-    readonly id: string
-    name: string
-    age: number
-    readonly arr: readonly string[] // 本身不能赋值，数组也不能改变
+interface Duck {
+    sound: "嘎嘎嘎"
+    swin(): void
 }
 
-let u:User = {
-    id: '123',
-    name: 'yang',
-    age: 18,
-    arr: ['yang']
+// interface Person {
+//     name: string
+//     age: number
+//     sound: string
+//     swin(): void
+// }
+
+let person = {
+    name: "伪装成鸭子的人",
+    age: 12,
+    sound: "嘎嘎嘎" as "嘎嘎嘎",
+    swin() {
+        console.log(this.name + "正在游泳，并发出" + this.sound + "的声音");
+    }
 }
 
-// u.id = '234' 会报错
+let d:Duck = person
 
-// 只读的数组
-let arr: readonly number[] = [2, 3, 4]
-let arrs: ReadonlyArray<number> = [2, 3, 4]
+d.swin()
 
-arr = [4, 5, 6, 7];
+interface Condition {
+    (n: number, index: number): boolean
+}
 
-console.log(arr, arrs)
+function sum(numbers: number[], callback:Condition) {
+    let s = 0;
+    
+    numbers.forEach((n, i) => {
+        if (callback(n, i)) {
+            s += n
+        }
+    })
+    return s;
+}
 
+const result = sum([3, 4, 5, 7, 11], n => n % 2 !== 0);
+
+console.log(result)
