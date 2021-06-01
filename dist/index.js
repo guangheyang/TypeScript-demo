@@ -1,24 +1,16 @@
-class User {
-    constructor(name, age, gender = '男') {
-        this.gender = "男";
-        this.publishNumber = 3;
-        this.curNumber = 0;
-        this.id = Math.random();
-        this.name = name;
-        this.age = age;
-    }
-    publish(title) {
-        if (this.curNumber < this.publishNumber) {
-            console.log('发布一篇文章' + title);
-            this.curNumber++;
-        }
-        else {
-            console.log('你今日发布的文章数量以达到上限');
-        }
-    }
-}
-const u = new User('yang', 18);
-u.publish('文章1');
-u.publish('文章2');
-u.publish('文章3');
-u.publish('文章4');
+Object.defineProperty(exports, "__esModule", { value: true });
+const decks_1 = require("./decks");
+const deck = new decks_1.Deck();
+deck.shuffle();
+console.log('洗牌之后');
+deck.print();
+const result = deck.publish();
+console.log('发牌之后');
+console.log('=======玩家1=======');
+result.player1.print();
+console.log('=======玩家2=======');
+result.player2.print();
+console.log('=======玩家3=======');
+result.player3.print();
+console.log('=======底牌=======');
+result.left.print();
