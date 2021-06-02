@@ -1,28 +1,43 @@
-function take(arr: any[], n: number): any {
-    if (n >= arr.length) {
-        return arr
-    }
-    const newArr: any[] = [];
-    for (let i = 0; i < n; i++) {
-        newArr.push(arr[i])
-    }
-    return newArr;
-}
+import { ArrayHelper } from "./ArrayHelper";
 
-const newArr = take([2,24,45,64,6,7], 2);
+type callback = (n :number, i: number) => boolean;
+// 使用类型别名
+type callbacType<T> = (n: T, i: number) => boolean;
 
-console.log(newArr)
-
-function takes<T>(arr: T[], n: number): T[] {
-    if (n >= arr.length) {
-        return arr
-    }
+function filterType<T>(arr: T[], callback: callbacType<T>): T[] {
     const newArr: T[] = [];
-    for (let i = 0; i < n; i++) {
-        newArr.push(arr[i])
-    }
+    arr.forEach((n, i) => {
+        if (callback(n, i)) {
+            newArr.push(n)
+        }
+    })
     return newArr;
 }
 
-const newTake = takes<number>([1, 2, 5, 4, 6], 3);
-console.log(newTake)
+const arr = [3, 5, 2, 9, 5, 6]
+
+console.log(filterType(arr, n => n % 2 !== 0))
+
+// 使用接口
+interface callbackInterface<T> {
+    (n: T, i: number): boolean
+}
+
+function filterInterface<T>(arr: T[], callback: callbackInterface<T>): T[] {
+    const newArr: T[] = [];
+    arr.forEach((n, i) => {
+        if (callback(n, i)) {
+            newArr.push(n)
+        }
+    })
+    return newArr;
+}
+
+console.log(filterInterface(arr, n => n % 2 === 0));
+
+const helper = new ArrayHelper<number>([3, 5, 2, 9, 5, 6])
+
+// helper.take(3);
+// helper.print();
+helper.shuffle();
+helper.print()

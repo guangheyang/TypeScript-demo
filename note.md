@@ -52,3 +52,27 @@ const newArr = takes<number>([1, 2, 5, 4, 6], 3);
 console.log(newArr)
 ```
 
+#### 在类中使用泛型
+
+在类名之后加上`<泛型名称>`
+
+#### 在接口中使用泛型
+
+在接口名之后加上`<泛型名称>`
+
+#### 在类型别名中使用泛型
+
+在类型别名之后加上`<泛型名称>`
+
+未使用泛型
+
+```typescript
+type callback = (n :number, i: number) => boolean;
+```
+
+使用泛型
+
+```typescript
+type callback<T> = (n :T, i: number) => boolean;
+```
+
