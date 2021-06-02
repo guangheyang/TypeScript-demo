@@ -1,24 +1,26 @@
-function take(arr, n) {
-    if (n >= arr.length) {
-        return arr;
-    }
+Object.defineProperty(exports, "__esModule", { value: true });
+const ArrayHelper_1 = require("./ArrayHelper");
+function filterType(arr, callback) {
     const newArr = [];
-    for (let i = 0; i < n; i++) {
-        newArr.push(arr[i]);
-    }
+    arr.forEach((n, i) => {
+        if (callback(n, i)) {
+            newArr.push(n);
+        }
+    });
     return newArr;
 }
-const newArr = take([2, 24, 45, 64, 6, 7], 2);
-console.log(newArr);
-function takes(arr, n) {
-    if (n >= arr.length) {
-        return arr;
-    }
+const arr = [3, 5, 2, 9, 5, 6];
+console.log(filterType(arr, n => n % 2 !== 0));
+function filterInterface(arr, callback) {
     const newArr = [];
-    for (let i = 0; i < n; i++) {
-        newArr.push(arr[i]);
-    }
+    arr.forEach((n, i) => {
+        if (callback(n, i)) {
+            newArr.push(n);
+        }
+    });
     return newArr;
 }
-const newTake = takes([1, 2, 5, 4, 6], 3);
-console.log(newTake);
+console.log(filterInterface(arr, n => n % 2 === 0));
+const helper = new ArrayHelper_1.ArrayHelper([3, 5, 2, 9, 5, 6]);
+helper.shuffle();
+helper.print();
