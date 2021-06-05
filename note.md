@@ -76,3 +76,6 @@ type callback = (n :number, i: number) => boolean;
 type callback<T> = (n :T, i: number) => boolean;
 ```
 
+### 泛型约束
+
+泛型约束，用于限制泛型的取值。
