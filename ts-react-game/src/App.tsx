@@ -1,21 +1,31 @@
 import React from "react";
-import { CountComp } from './components/CountComp'
-
+import { BoardComp } from "components/BoardComp";
+import { ChessType } from "types/enums";
 interface Istate {
   num: number
 }
-
+const types: ChessType[] = [
+  ChessType.black,
+  ChessType.red,
+  ChessType.none,
+  ChessType.black,
+  ChessType.red,
+  ChessType.none,
+  ChessType.none,
+  ChessType.none,
+  ChessType.none
+]
 export class App extends React.Component<{}, Istate> {
-  state = {
-    num: 0
-  }
   render() {
     return (
-      <CountComp num={this.state.num} onChange={ (n => {
-        this.setState({
-          num: n
-        })
-      }) } />
+      <div>
+        <BoardComp
+        isGameOver={false}
+        chesses={types}
+        callback={i => {
+          console.log(i)
+        }} />
+      </div>
     )
   }
 }
