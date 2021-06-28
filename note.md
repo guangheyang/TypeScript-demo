@@ -1,81 +1,49 @@
-### 泛型
+## 继承的作用
 
-有时书写某个函数时，会丢失一些类型信息（多个位置的类型应该保持一致或有关联的信息）
+继承可以描述类与类之间的关系。
 
-泛型：是指附属于函数、类、接口、类型别名之上的类型
+如果A和B都是类，并且可以描述为A是B，则A和B形成继承关系。
 
-泛型相当于是一个类型变量，在定义时，无法预先知道具体类型，可以使用该变量代替，只要在调用时才能确定它的类型。
+B是父类，A是子类
 
-很多时候，TS会智能的根据传递的参数，推导出泛型的具体类型
+B派生A，A继承自B
 
-如果无法完成推到，并且有没有传递具体的类型，默认为空对象
+B是A的基类，A是B的派生类
 
-#### 在函数中使用泛型
+## 成员的重写
 
-在函数名之后加上`<泛型名称>`
+重写（override）：子类中覆盖父类的成员
 
-未使用泛型
+子类成员不能改变父类成员的类型
 
-```typescript
-function take(arr: any[], n: number): any {
-    if (n >= arr.length) {
-        return arr
-    }
-    const newArr: any[] = [];
-    for (let i = 0; i < n; i++) {
-        newArr.push(arr[i])
-    }
-    return newArr;
-}
+无论是属性还是方法，子类都可以对父类的相应成员进行重写，但是
 
-const newArr = take([2,24,45,64,6,7], 2);
+重写需要保证类型匹配。
 
-console.log(newArr)
-```
+注意this关键字：在继承关系中，this的指向是动态的，调用方法时，根据具体的调用者确定this指向。
 
-使用泛型
+super关键字：在子类的方法中，可以使用super关键字读取父类成员。
 
-```typescript
-// T = string,设置默认值为string
-function take<T = string>(arr: T[], n: number): T[] {
-    if (n >= arr.length) {
-        return arr
-    }
-    const newArr: T[] = [];
-    for (let i = 0; i < n; i++) {
-        newArr.push(arr[i])
-    }
-    return newArr;
-}
+## 类型匹配
 
-const newArr = takes<number>([1, 2, 5, 4, 6], 3);
-console.log(newArr)
-```
+鸭子辨型法。
 
-#### 在类中使用泛型
+子类的对象，始终可以赋值给父类。
 
-在类名之后加上`<泛型名称>`
+面向对象中，这种现象叫做里氏替换原则。
 
-#### 在接口中使用泛型
+如果需要判断一个具体子类类型，可以使用`instanceof`
 
-在接口名之后加上`<泛型名称>`
+## protected修饰符
 
-#### 在类型别名中使用泛型
+`readonly`:只读修饰符
 
-在类型别名之后加上`<泛型名称>`
+访问权限修饰符：private public protected
 
-未使用泛型
+protected:受保护的成员，稚嫩在自身和子类中访问。
 
-```typescript
-type callback = (n :number, i: number) => boolean;
-```
+## 单根性和传递性
 
-使用泛型
+单根性：每个类最多拥有一个父类。
 
-```typescript
-type callback<T> = (n :T, i: number) => boolean;
-```
-
-### 泛型约束
-
-泛型约束，用于限制泛型的取值。
+传递性：如果A是B的父类，并且B是C的父类，刻意认为A也是C的父类。
