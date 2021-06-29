@@ -1,46 +1,101 @@
-export class Tank {
+abstract class Chess {
     x: number = 0
     y: number = 0
-    protected name: string = '坦克'
-    shoot() {
-        console.log('发射子弹')
+    abstract readonly name: string
+    // abstract move (targetX :number, targetY: number): boolean
+
+    // protected isOutSide(): boolean {
+    //     console.log('1.边界判断');
+    //     return false
+    // }
+
+    // protected targetHasMengyou(): boolean {
+    //     console.log('2.目标位置是否有己方棋子');
+    //     return false
+    // }
+
+    // protected finish(targetX: number, targetY: number) {
+    //     console.log('3.棋子移动规则');
+    //     this.x = targetX
+    //     this.y = targetY
+    //     console.log(`${this.name}移动成功`)
+    // }
+    move (targetX: number, targetY: number) {
+        console.log('1.边界判断');
+        console.log('2.目标位置是否有己方棋子');
+        if (this.rule(targetX, targetY)) {
+            this.x = targetX
+            this.y = targetY
+            console.log(`${this.name}移动成功`)
+            return true
+        }
     }
-    // 自身调用受保护的属性
-    sayHello() {
-        console.log(`我是一个${this.name}`)
+    protected abstract rule(targetX: number, targetY: number): boolean;
+}
+
+class Horse extends Chess {
+    protected rule(targetX: number, targetY: number): boolean {
+        return true
+    }
+    // move(targetX: number, targetY: number): boolean {
+    //     console.log('1.边界判断');
+    //     console.log('2.目标位置是否有己方棋子');
+    //     console.log('3.棋子移动规则');
+    //     this.x = targetX
+    //     this.y = targetY
+    //     console.log(`${this.name}移动成功`)
+    //     return true
+    // }
+
+    readonly name: string = '马';
+}
+
+class Pao extends Chess {
+    protected rule(targetX: number, targetY: number): boolean {
+        return false
+    }
+    // move(targetX: number, targetY: number): boolean {
+    //     this.x = targetX
+    //     this.y = targetY
+    //     console.log(`${this.name}移动成功`)
+    //     return true
+    // }
+    name: string
+    constructor() {
+        super()
+        this.name = '炮'
     }
 }
 
-export class PlayerTank extends Tank {
-    x: number = 20
-    y: number = 20
-    protected name: string = '玩家坦克'
-    shoot() {
-        console.log('玩家发射子弹')
+class Slodier extends Chess {
+    protected rule(targetX: number, targetY: number): boolean {
+        return true
     }
-    left: number = 5
-     // 子类调用受保护的属性
-     test() {
-        // console.log(this.name)
-        super.sayHello()
-        // this.sayHello() 也可以
+    // move(targetX: number, targetY: number): boolean {
+    //     this.x = targetX
+    //     this.y = targetY
+    //     console.log(`${this.name}移动成功`)
+    //     return true
+    // }
+    get name() {
+        return '兵'
     }
 }
 
-export class EnemyTank extends Tank {
-    name: string = '敌方坦克'
-    health: number = 1
+class King extends Chess {
+    name: string = '帅';
+    protected rule(targetX: number, targetY: number): boolean {
+        return true
+    }
+    
 }
 
-export class BossTank extends EnemyTank {
-    health: number = 3
-}
+const h = new Horse();
+const p = new Pao();
+const s = new Slodier();
+const k = new King();
 
-const p: Tank = new PlayerTank()
-console.log(p.x, p.y)
-p.shoot()
-p.sayHello()
-// 判断具体类型
-if (p instanceof PlayerTank) {
-    console.log(p.left)
-}
+h.move(1, 2)
+p.move(1, 2)
+s.move(1, 2)
+k.move(1, 2)
