@@ -1,59 +1,52 @@
-class Chess {
-    constructor() {
-        this.x = 0;
-        this.y = 0;
+class User {
+    constructor(loginId, loginPwd, name, age) {
+        this.loginId = loginId;
+        this.loginPwd = loginPwd;
+        this.name = name;
+        this.age = age;
+        User.users.push(this);
     }
-    move(targetX, targetY) {
-        console.log('1.边界判断');
-        console.log('2.目标位置是否有己方棋子');
-        if (this.rule(targetX, targetY)) {
-            this.x = targetX;
-            this.y = targetY;
-            console.log(`${this.name}移动成功`);
-            return true;
+    static login(loginId, loginPwd) {
+        return this.users.find(u => u.loginId === loginId && u.loginPwd === loginPwd);
+    }
+    sayHello() {
+        console.log(`大家好，我叫${this.name}, 今年${this.age}岁`);
+    }
+}
+User.users = [];
+const u = User.login('XXX', 'xxx');
+const u1 = new User('u1', 'pwd', 'yang', 18);
+const u2 = new User('u2', 'pwd', 'qq', 16);
+const u3 = new User('u3', 'pwd', 'jiege', 21);
+console.log(User.users);
+const result = User.login('u1', 'pwd1');
+console.log(result);
+if (result) {
+    result.sayHello();
+}
+else {
+    console.log('登陆失败');
+}
+class Board {
+    constructor() {
+        this.width = 500;
+        this.height = 700;
+    }
+    init() {
+        console.log('初始化棋盘');
+    }
+    static createBoard() {
+        if (this._board) {
+            return this._board;
         }
+        this._board = new Board();
+        return this._board;
     }
 }
-class Horse extends Chess {
-    constructor() {
-        super(...arguments);
-        this.name = '马';
-    }
-    rule(targetX, targetY) {
-        return true;
-    }
-}
-class Pao extends Chess {
-    constructor() {
-        super();
-        this.name = '炮';
-    }
-    rule(targetX, targetY) {
-        return false;
-    }
-}
-class Slodier extends Chess {
-    rule(targetX, targetY) {
-        return true;
-    }
-    get name() {
-        return '兵';
-    }
-}
-class King extends Chess {
-    constructor() {
-        super(...arguments);
-        this.name = '帅';
-    }
-    rule(targetX, targetY) {
-        return true;
-    }
-}
-const h = new Horse();
-const p = new Pao();
-const s = new Slodier();
-const k = new King();
-h.move(1, 2);
-p.move(1, 2);
-s.move(1, 2);
-k.move(1, 2);
+Board.singleBoard = new Board();
+const b1 = Board.createBoard();
+const b2 = Board.createBoard();
+const b3 = Board.singleBoard;
+const b4 = Board.singleBoard;
+console.log(b1 === b2);
+console.log(b3 === b4);
