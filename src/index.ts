@@ -1,69 +1,72 @@
-class User {
-    constructor (
-        public loginId: string,
-        public loginPwd: string,
-        public name: string,
-        public age: number
-    ) {
-        // 需要将新建的用户加入到数组中
-        User.users.push(this)
-    }
-    static login(loginId: string, loginPwd: string): User | undefined {
-        return this.users.find(u => u.loginId === loginId && u.loginPwd === loginPwd)
-    }
+import { Animal, Dog, Lion, Monkey, Tiger } from "./animals";
+import { IFireShow, IWisdomShow } from "./interfaces";
 
-    static users: User[] = []
-    sayHello() {
-        console.log(`大家好，我叫${this.name}, 今年${this.age}岁`);
+const animals: Animal[] = [
+    new Lion('小石',12),
+    new Tiger('小虎',11),
+    new Monkey('小猴',13),
+    new Dog('小狗',14)
+]
+
+// 1.所有动物打招呼
+animals.forEach(a => {a.sayHello()})
+
+// 2.可以钻火圈的动物开始表演
+
+// 类型保护函数
+function hasFireShow(ani: object): ani is IFireShow {
+    if ((ani as IFireShow).singleFire && (ani as unknown as IFireShow).doubleFire) {
+        return true
     }
+    return false
+}
+// animals.forEach(a => {
+//     if (a instanceof Lion || a instanceof Tiger) {
+//         a.singleFire()
+//         a.doubleFire()
+//     }
+// })
+animals.forEach(a => {
+    if (hasFireShow(a)) {
+        a.singleFire()
+        a.doubleFire()
+    }
+})
+
+// 3.所有会智慧表演的动物表演
+function hasWisdomShow(ani: any): ani is IWisdomShow {
+    if ((ani as IWisdomShow).dance && (ani as IWisdomShow).suanshuti) {
+        return true
+    }
+    return false
+}
+animals.forEach(a => {
+    if (hasWisdomShow(a)) {
+        a.dance()
+        a.suanshuti()
+    }
+})
+
+// 接口继承类
+class A {
+    a1: string = ''
+    a2: string = ''
+    a3: string = ''
 }
 
-const u = User.login('XXX', 'xxx');
-
-const u1 = new User('u1', 'pwd', 'yang', 18);
-const u2 = new User('u2', 'pwd', 'qq', 16);
-const u3 = new User('u3', 'pwd', 'jiege', 21);
-// u1.sayHello()
-// u2.sayHello()
-// u3.sayHello()
-
-console.log(User.users)
-
-// const result = User.login('u1', 'pwd')
-const result = User.login('u1', 'pwd1')
-console.log(result)
-if (result) {
-    result.sayHello()
-} else {
-    console.log('登陆失败')
+class B {
+    b1: number = 0
+    b2: number = 0
+    b3: number = 0
 }
 
+interface C extends A, B {}
 
-class Board {
-    width: number = 500
-    height: number = 700
-    init() {
-        console.log('初始化棋盘')
-    }
-
-    // 私有化构造函数，外面不能使用new
-    private constructor() {}
-
-    private static _board?: Board;
-
-    static readonly singleBoard: Board = new Board();
-    static createBoard() :Board {
-        if (this._board) {
-            return this._board;
-        }
-        this._board = new Board();
-        return this._board;
-    }
+const c: C = {
+    a1: 'a1',
+    a2: 'a2',
+    a3: 'a3',
+    b1: 1,
+    b2: 2,
+    b3: 3
 }
-
-const b1 = Board.createBoard()
-const b2 = Board.createBoard()
-const b3 = Board.singleBoard
-const b4 = Board.singleBoard
-console.log(b1 === b2)
-console.log(b3 === b4)
