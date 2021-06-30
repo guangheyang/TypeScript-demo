@@ -1,55 +1,32 @@
-Object.defineProperty(exports, "__esModule", { value: true });
-const animals_1 = require("./animals");
-const animals = [
-    new animals_1.Lion('小石', 12),
-    new animals_1.Tiger('小虎', 11),
-    new animals_1.Monkey('小猴', 13),
-    new animals_1.Dog('小狗', 14)
-];
-animals.forEach(a => { a.sayHello(); });
-function hasFireShow(ani) {
-    if (ani.singleFire && ani.doubleFire) {
-        return true;
-    }
-    return false;
-}
-animals.forEach(a => {
-    if (hasFireShow(a)) {
-        a.singleFire();
-        a.doubleFire();
-    }
-});
-function hasWisdomShow(ani) {
-    if (ani.dance && ani.suanshuti) {
-        return true;
-    }
-    return false;
-}
-animals.forEach(a => {
-    if (hasWisdomShow(a)) {
-        a.dance();
-        a.suanshuti();
-    }
-});
-class A {
-    constructor() {
-        this.a1 = '';
-        this.a2 = '';
-        this.a3 = '';
-    }
-}
-class B {
-    constructor() {
-        this.b1 = 0;
-        this.b2 = 0;
-        this.b3 = 0;
-    }
-}
-const c = {
-    a1: 'a1',
-    a2: 'a2',
-    a3: 'a3',
-    b1: 1,
-    b2: 2,
-    b3: 3
+const obj = {
+    name: 'asdf',
+    age: 12,
+    'my-pid': '131424'
 };
+const methodsFun = 'sayhello';
+class User {
+    constructor(name, age) {
+        this.name = name;
+        this.age = age;
+    }
+    [methodsFun]() {
+        console.log('1');
+    }
+}
+const u = new User('yang', 18);
+u[methodsFun]();
+console.log(u["pid"]);
+class MyArray {
+    constructor() {
+        this[0] = 1;
+        this[1] = 'a';
+        this[2] = 'yang';
+    }
+}
+const myArr = new MyArray();
+console.log(myArr[0]);
+console.log(myArr[6] = 12);
+const arr = [];
+arr[0] = 1;
+arr["0"] = 3;
+console.log(arr[0]);

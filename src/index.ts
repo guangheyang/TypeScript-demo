@@ -1,72 +1,45 @@
-import { Animal, Dog, Lion, Monkey, Tiger } from "./animals";
-import { IFireShow, IWisdomShow } from "./interfaces";
+const obj = {
+    name: 'asdf',
+    age: 12,
+    'my-pid': '131424'
+}
+const methodsFun = 'sayhello'
 
-const animals: Animal[] = [
-    new Lion('小石',12),
-    new Tiger('小虎',11),
-    new Monkey('小猴',13),
-    new Dog('小狗',14)
-]
 
-// 1.所有动物打招呼
-animals.forEach(a => {a.sayHello()})
+// for (const key in obj) {
+//     console.log(key, obj[key])
+// }
 
-// 2.可以钻火圈的动物开始表演
-
-// 类型保护函数
-function hasFireShow(ani: object): ani is IFireShow {
-    if ((ani as IFireShow).singleFire && (ani as unknown as IFireShow).doubleFire) {
-        return true
+class User {
+    // 索引器
+    // 可以这样写 [prop: string]: string | number | {():void}
+    [prop: string]: any
+    constructor(
+        public name: string,
+        public age: number
+    ) {}
+    [methodsFun]() {
+        console.log('1')
     }
-    return false
 }
-// animals.forEach(a => {
-//     if (a instanceof Lion || a instanceof Tiger) {
-//         a.singleFire()
-//         a.doubleFire()
-//     }
-// })
-animals.forEach(a => {
-    if (hasFireShow(a)) {
-        a.singleFire()
-        a.doubleFire()
-    }
-})
+const u = new User('yang', 18)
+u[methodsFun]()
 
-// 3.所有会智慧表演的动物表演
-function hasWisdomShow(ani: any): ani is IWisdomShow {
-    if ((ani as IWisdomShow).dance && (ani as IWisdomShow).suanshuti) {
-        return true
-    }
-    return false
-}
-animals.forEach(a => {
-    if (hasWisdomShow(a)) {
-        a.dance()
-        a.suanshuti()
-    }
-})
+console.log(u["pid"])
 
-// 接口继承类
-class A {
-    a1: string = ''
-    a2: string = ''
-    a3: string = ''
+class MyArray {
+    [prop: number]: any
+    0 = 1
+    1 = 'a'
+    2 ='yang'
 }
 
-class B {
-    b1: number = 0
-    b2: number = 0
-    b3: number = 0
-}
+const myArr = new MyArray()
+console.log(myArr[0])
+console.log(myArr[6] = 12)
 
-interface C extends A, B {}
 
-const c: C = {
-    a1: 'a1',
-    a2: 'a2',
-    a3: 'a3',
-    b1: 1,
-    b2: 2,
-    b3: 3
-}
+const arr: any[] = []
+arr[0] = 1
+arr["0"] = 3
+console.log(arr[0])
