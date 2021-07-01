@@ -11,7 +11,8 @@
     "noEmitOnError": true, // 错误时不生成编译结果
     "moduleResolution": "node", // 设置模块的解析模式
     "strictPropertyInitialization": true, // 更加严格的属性初始化检查
-    "noImplicitAny": false // 开启索引器严格类型检查
+    "noImplicitAny": false, // 开启索引器严格类型检查
+    "noImplicitThis": true // 不允许this隐式指向any
   },
   "include": ["./src"] // 编译目录
 }
