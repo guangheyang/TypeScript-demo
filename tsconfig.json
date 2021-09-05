@@ -1,18 +1,14 @@
 {
-  "compilerOptions": { // 编译选项
-    "target": "ES2016", // 配置编译目标代码的版本标准
-    "module": "commonjs", // 配置编译目标的模块化标准  
-    "lib": ["es2016"], // 环境变量
-    "outDir": "./dist", // 编译结果
-    "strictNullChecks": true,
-    "removeComments": true, //移除注释
-    "noImplicitUseStrict": true, // 编译结果不使用use strict
-    "esModuleInterop": true, // 启用es模块化交互非es模块导出
-    "noEmitOnError": true, // 错误时不生成编译结果
-    "moduleResolution": "node", // 设置模块的解析模式
-    "strictPropertyInitialization": true, // 更加严格的属性初始化检查
-    "noImplicitAny": false, // 开启索引器严格类型检查
-    "noImplicitThis": true // 不允许this隐式指向any
+  "compilerOptions": {
+    "target": "es2016",
+    "module": "esnext",
+    "lib": ["es2016", "dom"],
+    "sourceMap": true,
+    "strict": true,
+    "removeComments": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "isolatedModules": true
   },
-  "include": ["./src"] // 编译目录
+  "include": ["./src"]
 }

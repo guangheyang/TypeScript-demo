@@ -1,36 +1,20 @@
-const u:IUser = {
-    name: 'yang',
-    age: 18,
-    sayHello() {
-        console.log(this.name, this.age, this)
-    }
+import { Square } from "./core/Suquare";
+import { IViewer } from "./core/types";
+
+class SquareConsoleViewer implements IViewer {
+  constructor(
+    private square: Square
+  ) {}
+  show(): void {
+    console.log(this.square.point, this.square.color)
+  }
+  remove(): void {
+    throw new Error("Method not implemented.");
+  }
 }
-
-// const say = u.sayHello
-// say()
-
-class User {
-    constructor(
-        public name: string,
-        public age: number
-    ) {}
-    sayHello(this: User) {
-        console.log(this, this.name, this.age)
-    }
+const sq = new Square({x: 0, y: 1}, 'red')
+sq.viewer = new SquareConsoleViewer(sq)
+sq.point = {
+  x: 1,
+  y: 3
 }
-
-const U = new User('yang', 18)
-// 未约束时，这种调用方式就存在报错
-// const Say = U.sayHello
-// Say()
-U.sayHello()
-
-
-interface IUser {
-    name: string,
-    age: number,
-    sayHello(this: IUser): void
-}
-// function hello() {
-//     console.log(this, this.name, this.age)
-// }
