@@ -4,8 +4,8 @@ import { IViewer, Point } from "./types"
  * 小方块
  */
 export class Square {
-  // private _point: Point
-  // private _color: string
+  private _point: Point = {x: 0, y: 0}
+  private _color: string = ''
 
   // public get x() {
   //   return this._x
@@ -30,6 +30,9 @@ export class Square {
 
   public set viewer(v) {
     this._viewer = v
+    if (v) {
+      v.show()
+    }
   }
 
   public get point() {
@@ -46,6 +49,10 @@ export class Square {
   public get color() {
     return this._color
   }
+  public set color(val) {
+    console.log(val, 'color')
+    this._color = val
+  }
 
-  constructor(private _point: Point, private _color: string) {}
+  constructor() {}
 }
