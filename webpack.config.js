@@ -24,10 +24,10 @@ module.exports = {
       { test: /.ts$/, use: {
         loader: "ts-loader",
         options: {
-          transoileOnly: true
+          transpileOnly: true
         }
-      } }
-    ]
+      }
+    }]
   },
   resolve: { // 解析的文件顺序
     extensions: ['.ts', '.js']

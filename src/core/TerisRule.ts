@@ -74,6 +74,16 @@ export class TerisRule {
 
     }
   }
+
+  static rotate(teris: SquareGroup):boolean {
+    const newShape = teris.afterRotateShape()
+    if (this.canIMove(newShape, teris.centerPoint)) {
+      teris.rotate()
+      return true
+    } else {
+      return false
+    }
+  }
 }
 
 function isPoint(obj:any): obj is Point {

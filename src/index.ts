@@ -6,7 +6,7 @@ import { createTeris } from "./core/Teris";
 import { TerisRule } from "./core/TerisRule";
 import { MoveDirection } from "./core/types";
 
-const teris = createTeris({x: 4, y: 3})
+const teris = createTeris({x: 7, y: 3})
 
 teris.squares.forEach(sq => {
   sq.viewer = new SquarePageViewer(sq, $('#app'));
@@ -40,3 +40,8 @@ $('#left').on('click', () => {
 // $('#add').on('click', () => {
 //   sq.viewer = new SquarePageViewer(sq, $('#app'));
 // })
+
+$('#rotate').on('click', () => {
+  // teris.rotate();
+  TerisRule.rotate(teris)
+})
