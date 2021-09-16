@@ -1,6 +1,6 @@
 import { Point, Shape } from "./types";
 import { getRandom } from "./utils";
-import { SquareGroup } from "./viewer/SquareGroup";
+import { SquareGroup } from "./SquareGroup";
 
 
 export class TShpae extends SquareGroup {

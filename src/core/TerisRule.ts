@@ -1,7 +1,7 @@
 import { GameConfig } from "./GameConfig";
 import { shapes } from "./Teris";
 import { MoveDirection, Point, Shape } from "./types";
-import { SquareGroup } from "./viewer/SquareGroup";
+import { SquareGroup } from "./SquareGroup";
 
 /**
  * 该类中提供一系列函数，根据游戏规则判断各种情况
