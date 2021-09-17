@@ -38,7 +38,6 @@ export class SquareGroup {
       this._shape.forEach(p => {
         const sq = new Square();
         sq.color = this._color;
-        console.log(this._color, this._shape, 'over')
         // sq.point = {
         //   x: this._centerPoint.x + p.x,
         //   y: this._centerPoint.y + p.y

@@ -50,7 +50,6 @@ export class Square {
     return this._color
   }
   public set color(val) {
-    console.log(val, 'color')
     this._color = val
   }
 

@@ -3,6 +3,7 @@ import { TerisRule } from "./TerisRule";
 import { GameStatus, GameViewer, MoveDirection } from "./types";
 import { SquareGroup } from "./SquareGroup";
 import { GameConfig } from "./GameConfig";
+import { Square } from "./Suquare";
 
 export class Game {
   // 游戏状态
@@ -15,6 +16,8 @@ export class Game {
   private _timer?: number | NodeJS.Timeout
   // 下落间隔时间
   private _duration?:number = 1000
+  // 当前游戏中，已存在的方块
+  private _exists: Square[] = []
 
   constructor(private _viewer: GameViewer) {
     this.resetCenterPoint(GameConfig.nextSize.width, this._nextTeris)
@@ -47,25 +50,26 @@ export class Game {
   }
 
   controlLeft() {
-    console.log(1)
     if (this._curTeris && this._gameStatus === GameStatus.playing) {
-      TerisRule.move(this._curTeris, MoveDirection.left)
+      TerisRule.move(this._curTeris, MoveDirection.left, this._exists)
     }
   }
   controlRight() {
     if (this._curTeris && this._gameStatus === GameStatus.playing) {
-      TerisRule.move(this._curTeris, MoveDirection.right)
+      TerisRule.move(this._curTeris, MoveDirection.right, this._exists)
     }
   }
   controlDown() {
     if (this._curTeris && this._gameStatus === GameStatus.playing) {
-      TerisRule.moveDirectly(this._curTeris, MoveDirection.down)
+      TerisRule.moveDirectly(this._curTeris, MoveDirection.down, this._exists)
+      // 切换方块
+      this.hitBottom()
     }
   }
 
   controlRotate() {
     if (this._curTeris && this._gameStatus === GameStatus.playing) {
-      TerisRule.rotate(this._curTeris)
+      TerisRule.rotate(this._curTeris, this._exists)
     }
   }
 
@@ -78,7 +82,9 @@ export class Game {
     }
     this._timer = setInterval(() => {
       if (this._curTeris) {
-        TerisRule.move(this._curTeris, MoveDirection.down)
+        if (!TerisRule.move(this._curTeris, MoveDirection.down, this._exists)) {
+          this.hitBottom()
+        }
       }
     }, this._duration)
   }
@@ -106,10 +112,20 @@ export class Game {
     teris.centerPoint = { x, y }
     while (teris.squares.some(it => it.point.y < 0)) {
       // TerisRule.move(teris, MoveDirection.down)
-      teris.squares.forEach(sq =>  sq.point = {
+      teris.squares.forEach(sq => sq.point = {
         x: sq.point.x,
         y: sq.point.y + 1
       })
     }
+  }
+  /**
+   * 触底之后的操作
+   */
+  private hitBottom() {
+    // 将当前的俄罗斯方块包含的小方块加入到已存在的方块数组中
+    this._exists = this._exists.concat(this._curTeris!.squares)
+    console.log(this._exists, 'e')
+    // 切换方块
+    this.switchSquare()
   }
 }
