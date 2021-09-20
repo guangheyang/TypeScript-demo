@@ -18,9 +18,10 @@ export class Game {
   private _duration?:number = 1000
   // 当前游戏中，已存在的方块
   private _exists: Square[] = []
+  // 积分
+  private _score: number = 0
 
   constructor(private _viewer: GameViewer) {
-    this._nextTeris = createTeris({ x: 0, y: 0 })
     this.createNext()
     this._viewer.init(this)
   }
@@ -30,12 +31,25 @@ export class Game {
     this.resetCenterPoint(GameConfig.nextSize.width, this._nextTeris)
     this._viewer.showNext(this._nextTeris)
   }
+
+  private init() {
+    this._exists.forEach(sq => {
+      sq.viewer?.remove()
+    })
+    this._exists = []
+    this._curTeris = undefined
+    this._score = 0
+    this.createNext()
+  }
   /**
    * 游戏开始
    */
   start() {
     if (this._gameStatus === GameStatus.playing) {
       return
+    }
+    if (this._gameStatus === GameStatus.over) {
+      this.init()
     }
     this._gameStatus = GameStatus.playing
     if (!this._curTeris) {
@@ -99,11 +113,21 @@ export class Game {
    */
   private switchSquare() {
     this._curTeris = this._nextTeris
+    this._curTeris.squares.forEach(sq => {
+      if (sq.viewer) {
+        sq.viewer.remove()
+      }
+    })
     this.resetCenterPoint(GameConfig.panelSize.width, this._curTeris)
-    this._nextTeris = createTeris({ x: 0, y: 0 })
-    this.resetCenterPoint(GameConfig.nextSize.width, this._nextTeris)
+    if (!TerisRule.canIMove(this._curTeris.shape, this._curTeris.centerPoint, this._exists)) {
+      // 游戏结束
+      this._gameStatus = GameStatus.over
+      clearInterval(this._timer as number)
+      this._timer = undefined
+      return
+    }
+    this.createNext()
     this._viewer.switchSquare(this._curTeris)
-    this._viewer.showNext(this._nextTeris)
   }
 
   /**
@@ -117,10 +141,10 @@ export class Game {
     teris.centerPoint = { x, y }
     while (teris.squares.some(it => it.point.y < 0)) {
       // TerisRule.move(teris, MoveDirection.down)
-      teris.squares.forEach(sq => sq.point = {
-        x: sq.point.x,
-        y: sq.point.y + 1
-      })
+      teris.centerPoint = {
+        x: teris.centerPoint.x,
+        y: teris.centerPoint.y + 1
+      }
     }
   }
   /**
@@ -131,8 +155,20 @@ export class Game {
     this._exists = this._exists.concat(this._curTeris!.squares)
     // 处理移除
     const num = TerisRule.deleteSquares(this._exists);
-    console.log(num)
+    // 增加积分
+    this.addScore(num)
     // 切换方块
     this.switchSquare()
+  }
+
+  private addScore(lineNum: number) {
+    if (lineNum === 0) {
+      return
+    } else if (lineNum === 1) {
+      this._score += 10
+    } else {
+      this._score += lineNum * 25
+    }
+    console.log(this._score)
   }
 }

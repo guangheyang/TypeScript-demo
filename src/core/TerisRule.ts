@@ -135,15 +135,16 @@ export class TerisRule {
         if (sq.viewer) {
           sq.viewer.remove()
         }
-        // 2.剩下的方块，y坐标比当前的y小的，y+1
-        exists.filter(sq => sq.point.y < y).forEach(sq => {
-          sq.point = {
-            x: sq.point.x,
-            y: sq.point.y + 1
-          }
-        })
+        // 2.从数组中移除
         const index = exists.indexOf(sq)
         exists.splice(index, 1)
+      })
+       // 剩下的方块，y坐标比当前的y小的，y+1
+       exists.filter(sq => sq.point.y < y).forEach(sq => {
+        sq.point = {
+          x: sq.point.x,
+          y: sq.point.y + 1
+        }
       })
       return true
     }
