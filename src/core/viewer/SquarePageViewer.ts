@@ -23,7 +23,7 @@ export class SquarePageViewer implements IViewer {
         width: PageConfig.SquareSize.width,
         height: PageConfig.SquareSize.height,
         border: '1px solid #ccc',
-        baxSizing: 'border-box'
+        boxSizing: 'border-box'
       }).appendTo(this.container)
     }
     this.dom.css({

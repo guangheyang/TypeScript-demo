@@ -15,15 +15,37 @@ export class Game {
   // 计时器
   private _timer?: number | NodeJS.Timeout
   // 下落间隔时间
-  private _duration?:number = 1000
+  private _duration?:number
   // 当前游戏中，已存在的方块
   private _exists: Square[] = []
   // 积分
   private _score: number = 0
 
+  public get gameStatus() {
+    return this._gameStatus
+  }
+  public get score() {
+    return this._score
+  }
+  public set score(val) {
+    this._score = val
+    this._viewer.showScore(val)
+    const level = GameConfig.levels.filter(it => it.score <= val).pop()!
+    if (level.duration === this._duration) {
+      return
+    }
+    this._duration = level.duration
+    if (this._timer) {
+      clearInterval(this._timer as number)
+      this._timer = undefined
+      this.autoDrop()
+    }
+  }
   constructor(private _viewer: GameViewer) {
+    this._duration = GameConfig.levels[0].duration
     this.createNext()
     this._viewer.init(this)
+    this._viewer.showScore(this._score)
   }
 
   private createNext() {
@@ -38,7 +60,7 @@ export class Game {
     })
     this._exists = []
     this._curTeris = undefined
-    this._score = 0
+    this.score = 0
     this.createNext()
   }
   /**
@@ -57,6 +79,7 @@ export class Game {
       this.switchSquare()
     }
     this.autoDrop()
+    this._viewer.onGameStart()
   }
 
   /**
@@ -67,6 +90,7 @@ export class Game {
       this._gameStatus = GameStatus.pause
       clearInterval(this._timer as number)
       this._timer = undefined
+      this._viewer.onGamePause()
     }
   }
 
@@ -124,6 +148,7 @@ export class Game {
       this._gameStatus = GameStatus.over
       clearInterval(this._timer as number)
       this._timer = undefined
+      this._viewer.onGameOver()
       return
     }
     this.createNext()
@@ -165,10 +190,9 @@ export class Game {
     if (lineNum === 0) {
       return
     } else if (lineNum === 1) {
-      this._score += 10
+      this.score += 10
     } else {
-      this._score += lineNum * 25
+      this.score += lineNum * 25
     }
-    console.log(this._score)
   }
 }

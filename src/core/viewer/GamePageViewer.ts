@@ -1,5 +1,5 @@
 import { SquareGroup } from "../SquareGroup";
-import { GameViewer } from "../types";
+import { GameStatus, GameViewer } from "../types";
 import { SquarePageViewer } from "./SquarePageViewer";
 import $ from 'jquery'
 import { Game } from "../Game";
@@ -8,6 +8,8 @@ import PageConfig from "./PageConfig";
 export class GamePageViewer implements GameViewer {
   private nextDom = $('#next')
   private panelDom = $('#panel')
+  private scoreDom = $('#score')
+  private messageDom = $('#message')
   init(game: Game): void {
     // 1.设置宽高
     this.panelDom.css({
@@ -20,7 +22,6 @@ export class GamePageViewer implements GameViewer {
     })
     // 2.注册键盘事件
     $(document).on('keydown', (e) => {
-      console.log(e.key)
       switch (e.key) {
         case 'ArrowLeft':
           game.controlLeft()
@@ -34,6 +35,12 @@ export class GamePageViewer implements GameViewer {
         case 'ArrowUp':
           game.controlRotate()
           break;
+        case ' ':
+          if (game.gameStatus === GameStatus.playing) {
+            game.pause()
+          } else {
+            game.start()
+          }
       }
     })
   }
@@ -48,5 +55,24 @@ export class GamePageViewer implements GameViewer {
       sq.viewer = new SquarePageViewer(sq, this.panelDom)
     })
   }
-  
+  showScore(score: number): void {
+    this.scoreDom.html(score.toString())
+  }
+  onGamePause(): void {
+    this.messageDom.css({
+      display: 'flex'
+    })
+    this.messageDom.find('p').html('游戏暂停')
+  }
+  onGameStart(): void {
+    this.messageDom.css({
+      display: 'none'
+    })
+  }
+  onGameOver(): void {
+    this.messageDom.css({
+      display: 'flex'
+    })
+    this.messageDom.find('p').html('游戏结束')
+  }
 }

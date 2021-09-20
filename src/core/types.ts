@@ -50,4 +50,20 @@ export interface GameViewer {
    * 完成界面初始化
    */
   init(game: Game): void
+  /**
+   * 显示分数
+   */
+  showScore(score: number): void
+  /**
+   * 暂停时触发的事件
+   */
+  onGamePause(): void
+  /**
+   * 暂停时触发的事件
+   */
+   onGameStart(): void
+  /**
+   * 暂停时触发的事件
+   */
+   onGameOver(): void
 }
