@@ -20,6 +20,13 @@ export class Game {
   private _exists: Square[] = []
 
   constructor(private _viewer: GameViewer) {
+    this._nextTeris = createTeris({ x: 0, y: 0 })
+    this.createNext()
+    this._viewer.init(this)
+  }
+
+  private createNext() {
+    this._nextTeris = createTeris({ x: 0, y: 0 })
     this.resetCenterPoint(GameConfig.nextSize.width, this._nextTeris)
     this._viewer.showNext(this._nextTeris)
   }
@@ -62,8 +69,6 @@ export class Game {
   controlDown() {
     if (this._curTeris && this._gameStatus === GameStatus.playing) {
       TerisRule.moveDirectly(this._curTeris, MoveDirection.down, this._exists)
-      // 切换方块
-      this.hitBottom()
     }
   }
 
@@ -124,7 +129,9 @@ export class Game {
   private hitBottom() {
     // 将当前的俄罗斯方块包含的小方块加入到已存在的方块数组中
     this._exists = this._exists.concat(this._curTeris!.squares)
-    console.log(this._exists, 'e')
+    // 处理移除
+    const num = TerisRule.deleteSquares(this._exists);
+    console.log(num)
     // 切换方块
     this.switchSquare()
   }

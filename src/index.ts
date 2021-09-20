@@ -13,7 +13,6 @@ $('#btnPause').on('click', () => {
 })
 
 $('#btnLeft').on('click', () => {
-  console.log(0)
   g.controlLeft()
 })
 

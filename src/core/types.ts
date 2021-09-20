@@ -1,3 +1,4 @@
+import { Game } from "./Game";
 import { SquareGroup } from "./SquareGroup";
 
 export interface Point {
@@ -44,4 +45,9 @@ export interface GameViewer {
    * @params 切换下一个方块
    */
   switchSquare(teris: SquareGroup): void
+
+  /**
+   * 完成界面初始化
+   */
+  init(game: Game): void
 }
