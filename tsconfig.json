@@ -10,7 +10,7 @@
     "esModuleInterop": true, // 启用es模块化交互非es模块导出
     "noEmitOnError": true, // 错误时不生成编译结果
     "moduleResolution": "node", // 设置模块的解析模式
-    "strictPropertyInitialization": true,// 更加严格的属性初始化检查
+    "strictPropertyInitialization": false,// 更加严格的属性初始化检查
     "experimentalDecorators": true  
   },
   "include": ["./src"] // 编译目录

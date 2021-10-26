@@ -1,91 +1,47 @@
-// 概述
-// class User {
-//   @require
-//   @range(3, 5)
-//   @description('账号')
-//   loginid: string; //描述：账号 验证规则： 1.必填 2.必须3-5个字符
-//   loginpwd: string;
-//   age: number;
-//   gender: "男" | "女"
-// }
-
-// const u = new User();
-
-
-// function validateUser(u: User) {
-//   // 对用户对象中的数据进行验证
-//   if (u.loginid && u.loginid.length <= 5 && u.loginid.length >= 3) {
-//     // loginid验证通过
-//   } else {
-//     // 输出错误信息
-//   }
-// }
-
-// 1
-
-function d(target: new (...args: any[]) => object) {
-  // console.log(target)
-  // return class B {
-
-  // }
+function d() {  // 装饰器工厂
+  return function (target: any, key: string) {
+    console.log(target, key)
+    if (!target.__props) {
+      target.__props = []
+    }
+    target.__props.push(key)
+  }
 }
 
-
-@d
-class A {
-  // prop1:string // 提示错误，新的类可能会不存在这个属性
+class A{
+  @d()
+  prop1: string
+  @d()
+  static prop2: string
 }
-const a = new A()
 
-// 2
+const a = new A();
+// console.log((a as any).__props)
 
-function t(params: string) {
-  return function(params: new(...args: any[]) => object) {
-
-  } 
+function enumerable (target:any, key:string, descriptor: PropertyDescriptor) {
+  // console.log(target, key, descriptor)
+  descriptor.enumerable = true
 }
-@t('a')
+
+function useless(target:any, key:string, descriptor: PropertyDescriptor) {
+  descriptor.value = function () {
+    console.warn(key + '该方法已过期')
+  }
+}
+
 class B {
-
-}
-
-// 3
-
-type constructor = new (...args: any[]) => object;
-
-function d1(params:constructor) {
-  console.log('d1')
-}
-
-function d2(params:constructor) {
-  console.log('d2')
-  
-}
-
-@d1
-@d2
-class C {
-
-}
-
-// 面试题
-
-function d3() {
-  console.log('d3')
-  return function (params:constructor) {
-    console.log('d3 decorator')
+  @enumerable
+  methods1() {
+    
+  }
+  @useless
+  @enumerable
+  methods2() {
+    
   }
 }
-
-function d4() {
-  console.log('d4')
-  return function (params:constructor) {
-    console.log('d4 decorator')
-  }
+const b = new B()
+for(var key in b) {
+  console.log(key, 'b')
 }
-
-@d3()
-@d4()
-class D {
-
-}
+b.methods2()

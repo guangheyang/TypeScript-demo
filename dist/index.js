@@ -4,50 +4,47 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-function d(target) {
+function d() {
+    return function (target, key) {
+        console.log(target, key);
+        if (!target.__props) {
+            target.__props = [];
+        }
+        target.__props.push(key);
+    };
 }
-let A = class A {
-};
-A = __decorate([
-    d
-], A);
+class A {
+}
+__decorate([
+    d()
+], A.prototype, "prop1", void 0);
+__decorate([
+    d()
+], A, "prop2", void 0);
 const a = new A();
-function t(params) {
-    return function (params) {
+function enumerable(target, key, descriptor) {
+    descriptor.enumerable = true;
+}
+function useless(target, key, descriptor) {
+    descriptor.value = function () {
+        console.warn(key + '该方法已过期');
     };
 }
-let B = class B {
-};
-B = __decorate([
-    t('a')
-], B);
-function d1(params) {
-    console.log('d1');
+class B {
+    methods1() {
+    }
+    methods2() {
+    }
 }
-function d2(params) {
-    console.log('d2');
+__decorate([
+    enumerable
+], B.prototype, "methods1", null);
+__decorate([
+    useless,
+    enumerable
+], B.prototype, "methods2", null);
+const b = new B();
+for (var key in b) {
+    console.log(key, 'b');
 }
-let C = class C {
-};
-C = __decorate([
-    d1,
-    d2
-], C);
-function d3() {
-    console.log('d3');
-    return function (params) {
-        console.log('d3 decorator');
-    };
-}
-function d4() {
-    console.log('d4');
-    return function (params) {
-        console.log('d4 decorator');
-    };
-}
-let D = class D {
-};
-D = __decorate([
-    d3(),
-    d4()
-], D);
+b.methods2();
