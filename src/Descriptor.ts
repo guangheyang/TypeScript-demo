@@ -1,44 +1,22 @@
-export function classDescriptor(descriptor: string) {
-  return function (target: Function) {
-    // 保存到该类的原型中
-    target.prototype.$classDescriptor = descriptor
-  }
-}
-
-export function propDescriptor(descriptor: string) {
-  return function (target: any, propName: string) {
-    // 把所有的属性信息保存到该类的原型中
-    if (!target.$propDescriptor) {
-      target.$propDescriptor = []
-    }
-    target.$propDescriptor.push({
-      propName,
-      descriptor
-    })
-  }
+import "reflect-metadata";
+const key = Symbol.for('descriptor')
+export function descriptor(descriptor: string) {
+  return Reflect.metadata(key, descriptor)
 }
 export function printObj(obj: any) {
+  const cons = Object.getPrototypeOf(obj)
   // 输出类的名称
-  if (obj.$classDescriptor) {
-    console.log(obj.$classDescriptor)
+  if (Reflect.hasMetadata(key, cons)) {
+    console.log(Reflect.getMetadata(key, cons))
   } else {
-    console.log(Object.getPrototypeOf(obj).constructor.name)
-    console.log(obj.__proto__.constructor.name)
+    console.log(cons.constructor.name)
   }
   // 输出所有的属性描述和属性值
-  if (!obj.$propDescriptor) {
-    obj.$propDescriptor = []
-  }
-  for (const key in obj) {
-    if (obj.hasOwnProperty(key)) {
-      // console.log(key)
-      const prop = obj.$propDescriptor.find((p: any) => p.propName === key)
-      if (prop) {
-        console.log(`\t${prop.descriptor}: ${obj[key]}`)
-      } else {
-        console.log(`\t${key}: ${obj[key]}`)
-      }
+  for (const prop in obj) {
+    if (Reflect.hasMetadata(key, obj, prop)) {
+      console.log(`\t${Reflect.getMetadata(key, obj, prop)}: ${obj[prop]}`)
+    } else {
+      console.log(`\t${prop}: ${obj[key]}`)
     }
   }
-  // console.log(obj.$propDescriptor)
 }
