@@ -1,6 +1,24 @@
-`reflect-metadata`用于存储元数据
+## 补充
 
-`class-validator`库和`class-transformer`库都依赖于`reflect-metadata`才能使用
+### 参数装饰器
 
-`class-transformer`把平面对象转换类的对象。
+依赖注入（依赖倒置）时使用。
+
+要求函数有三个参数：
+
+1.如果方法是静态的，则为类本身；如果方法是实例方法，则为类的原型
+
+2.方法名称
+
+3.在参数列表中的索引
+
+### 关于TS自动注入的元数据
+
+如果安装并导入了`reflext-metadata`库，并且在某个成员上添加了元数据，并且在配置中启用了`emitDecoratorMetadata`，则TS在编译结果中，会将约束的类型，作为元数据加入到相应位置，这样一来，TS的类型检查（约束）将有机会在运行时进行。
+
+### `AOP`（aspect oriented programming）
+
+编程方式，属于面向对象开发。
+
+将一些业务中共同出现的功能块，横向切分，以达到分离关注点的目的。
 

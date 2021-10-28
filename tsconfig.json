@@ -11,7 +11,8 @@
     "noEmitOnError": true, // 错误时不生成编译结果
     "moduleResolution": "node", // 设置模块的解析模式
     "strictPropertyInitialization": false,// 更加严格的属性初始化检查
-    "experimentalDecorators": true  
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
   },
   "include": ["./src"] // 编译目录
 }
