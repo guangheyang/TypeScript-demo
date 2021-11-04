@@ -1,3 +1,4 @@
+import { type } from "os";
 
 interface User {
   age: number
@@ -68,3 +69,5 @@ const a: twoParamsConstructor = class Test extends Person {
     super()
   }
 }
+
+type Inst = InstanceType<twoParamsConstructor>
