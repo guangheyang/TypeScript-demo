@@ -1,66 +1,70 @@
-// typeof
-class User {
-  loginId: string
-  loginPwd: string
-}
 
-const u1 = new User()
-const u2 = u1;
-const A = User;
-
-// new() => USer
-function createUser(cls: typeof User): User {
-  return new cls()
-}
-
-const u = createUser(User)
-
-// keyof
-interface User1 {
-  loginId: string
-  loginPwd: string
+interface User {
   age: number
+  name: string
 }
 
-function printUserProp(obj:User, prop: keyof User1) {
-  console.log(obj[prop])
+let u1: Partial<User>;
+
+u1 = {
+  name: 'yang'
 }
 
-const u3: User1 = {
-  loginId: "123",
-  loginPwd: "abc",
-  age: 10
+let u2: Required<User>;
+
+u2 = {
+  name: 'yang',
+  age: 18
 }
 
-printUserProp(u3, 'age')
+let u3: Readonly<User>
 
-// in
-type Obj = {
-  // [p: string]: string
-  // [p in 'loginId' | 'loginPwd' | 'age']: string 
-  // [p in keyof User1]: string
-  // [p in keyof User1]: User1[p]
-  readonly [p in keyof User1]: User1[p]
+u3 = {
+  name: 'yang',
+  age: 18
 }
 
-const u4: Obj = {
-  loginId: '1243',
-  loginPwd: '1233',
-  age: 12
+// 报错
+// u3.age = 20
+
+let u4: Exclude<"a" | "b" | "c" | "d", "a" |"c">
+
+u4 = 'd'
+
+type T = "男" | "女" | null | undefined
+
+type NEWT = Exclude<T, null | undefined>
+
+
+
+let u5: Extract<"a" | "b" | "c" | "d", "a" |"c">
+
+u5 = 'c'
+
+
+type str = string | null | undefined
+let u6: NonNullable<str>
+
+type func = () => number
+type returnType = ReturnType<func>
+
+
+function sum(a: number, b: number) {
+  return a + b
 }
-// u4.age = '123'
+
+let s: ReturnType<typeof sum>
 
 
-type Article = {
-  title: string
-  date: Date
+class Person {
+  loginId: string
 }
+let p1: InstanceType<typeof Person>
 
-type Pratial<T> = {
-  readonly [p in keyof T] ?: T[p]
-}
+type twoParamsConstructor = new (arg1: any, arg2: any) => Person
 
-const u5: Partial<Article> = {
-  title: '文章',
-  date: new Date()
+const a: twoParamsConstructor = class Test extends Person {
+  constructor(a: any, b:any) {
+    super()
+  }
 }
