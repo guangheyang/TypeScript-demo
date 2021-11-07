@@ -13,6 +13,7 @@
     "strictPropertyInitialization": false,// 更加严格的属性初始化检查
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
+    // "typeRoots": ["./types"]
   },
   "include": ["./src"] // 编译目录
 }

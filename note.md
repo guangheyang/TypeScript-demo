@@ -1,21 +1,21 @@
-TS中预设的类型演算
+## 声明文件
 
-`Partial<T>`  将类型T的成员变为可选
+概述、编写、发布
 
-`Requried<T>` 将类型T中的成员变为必选
-内部使用 -? 使成员去除可选
+## 概述
 
-`Readonly<T>` 将类型T的成员变为只读
+1.什么是声明文件？
 
-`Exclude<T, U>` 从T中剔除可以赋值给U的类型
+以`.d.ts`结尾的文件
 
-`Extract<T, U>` 提取T中可以赋值给U的类型
+2.声明文件有什么作用？
 
-`NonNullable<T>` 从T中剔除null和undefined
+TS读取`JS`时，得不到类型声明，作用为`JS`代码提供类型声明
 
-`ReturnType<T>` 获取函数返回值类型
+3.声明文件存放位置
 
-infer推断类型
-
-`InstanceType<T>` 获取构造函数类型的实例类型
+- 放置在`tsconfig.json`配置中包含的目录中
+- 放置在node_modules/@types文件夹中
+- 手动配置,`tsconfig.json`中添加`typeRoots`文件目录，添加后上面的配置失效
+- 与`JS`代码所在目录相同，并且文件名也相同的文件，实际是用TS代码书写的工程发布之后的格式。
 
