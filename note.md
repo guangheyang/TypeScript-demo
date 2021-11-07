@@ -64,3 +64,23 @@ declare module "lodash" {
 /// <reference path="../../index.d.ts" />
 ```
 
+## 发布
+
+1.当前工程使用TS开发
+
+编译完成后，将编译结果所在文件夹直接发布到`npm`上即可
+
+2.为其他第三方开发的声明文件
+
+发布到@type/**中
+
+- [ ] 进入`gitHub`中的开源项目[https://github.com/DefinitelyTyped/DefinitelyTyped](gitHub中的开源项目)
+- [ ] fork到自己的开源库中
+- [ ] 从自己的开源库中克隆到本地
+- [ ] 本地新建分支（例如：`mylodash4.3`）,在新分支中的types目录中新建文件夹，在新的文件夹中开发
+- [ ] push分支到你的开源库
+- [ ] 到官方的开源库中，提交pull request
+- [ ] 等待官方审核（1天），审核通过会将你的分支代码合并到主分支，然后发布到`npm`
+
+之后就可以通过`npm install @types/你发布的库名`
+
