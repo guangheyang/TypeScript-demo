@@ -1,27 +1,10 @@
-class User {
-}
-const u1 = new User();
-const u2 = u1;
-const A = User;
-function createUser(cls) {
-    return new cls();
-}
-const u = createUser(User);
-function printUserProp(obj, prop) {
-    console.log(obj[prop]);
-}
-const u3 = {
-    loginId: "123",
-    loginPwd: "abc",
-    age: 10
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-printUserProp(u3, 'age');
-const u4 = {
-    loginId: '1243',
-    loginPwd: '1233',
-    age: 12
-};
-const u5 = {
-    title: '文章',
-    date: new Date()
-};
+Object.defineProperty(exports, "__esModule", { value: true });
+console.log('age');
+setTimeout(() => { }, 1000);
+const lodash_1 = __importDefault(require("lodash"));
+const newArr = lodash_1.default.chunk([2, 4, 6, 7, 3, 8], 2);
+console.log(newArr);
+//# sourceMappingURL=index.js.map

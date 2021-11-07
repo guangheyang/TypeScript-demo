@@ -12,7 +12,9 @@
     "moduleResolution": "node", // 设置模块的解析模式
     "strictPropertyInitialization": false,// 更加严格的属性初始化检查
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
+    "declaration": true,
+    "sourceMap": true,
     // "typeRoots": ["./types"]
   },
   "include": ["./src"] // 编译目录
